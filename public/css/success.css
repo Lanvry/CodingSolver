@@ -1,0 +1,230 @@
+ :root {
+     --pure-white: #FFFFFF;
+     --soft-white: #F9F9F9;
+     --pure-black: #000000;
+     --gray-100: #F5F5F5;
+     --gray-200: #EEEEEE;
+     --gray-700: #616161;
+     --gray-800: #424242;
+     --dark-accent: #BB86FC;
+     --dark-bg: #121212;
+     --dark-surface: #1E1E1E;
+     --dark-text-primary: #E0E0E0;
+     --dark-text-secondary: #A0A0A0;
+     --success-color: #28a745;
+ }
+
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+ }
+
+ body {
+     background-color: var(--soft-white);
+     color: var(--gray-800);
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     min-height: 100vh;
+     padding: 2rem;
+ }
+
+ body.dark-mode {
+     background-color: var(--dark-bg);
+     color: var(--dark-text-primary);
+ }
+
+ .success-container {
+     max-width: 600px;
+     width: 100%;
+     text-align: center;
+     background-color: var(--pure-white);
+     border-radius: 12px;
+     padding: 3rem;
+     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+ }
+
+ body.dark-mode .success-container {
+     background-color: var(--dark-surface);
+ }
+
+ .success-icon {
+     font-size: 5rem;
+     color: var(--success-color);
+     margin-bottom: 1.5rem;
+ }
+
+ .success-container h1 {
+     font-size: 2.5rem;
+     margin-bottom: 1rem;
+ }
+
+ .success-container p {
+     font-size: 1.1rem;
+     color: var(--gray-700);
+     margin-bottom: 2rem;
+     line-height: 1.6;
+ }
+
+ body.dark-mode .success-container p {
+     color: var(--dark-text-secondary);
+ }
+
+ .order-details {
+     background-color: var(--soft-white);
+     border-radius: 8px;
+     padding: 1.5rem;
+     margin-bottom: 2rem;
+     text-align: left;
+     border: 1px solid var(--gray-200);
+ }
+
+ body.dark-mode .order-details {
+     background-color: var(--dark-surface-light);
+     border-color: var(--dark-border);
+ }
+
+ .order-details h3 {
+     font-size: 1.2rem;
+     margin-bottom: 1rem;
+     padding-bottom: 0.5rem;
+     border-bottom: 1px solid var(--gray-200);
+ }
+
+ body.dark-mode .order-details h3 {
+     border-color: var(--dark-border);
+ }
+
+ .detail-row {
+     display: flex;
+     justify-content: space-between;
+     margin-bottom: 0.8rem;
+ }
+
+ .detail-row:last-child {
+     margin-bottom: 0;
+ }
+
+ .detail-label {
+     font-weight: 600;
+     color: var(--gray-800);
+ }
+
+ body.dark-mode .detail-label {
+     color: var(--dark-text-primary);
+ }
+
+ .detail-value {
+     color: var(--gray-700);
+ }
+
+ body.dark-mode .detail-value {
+     color: var(--dark-text-secondary);
+ }
+
+ .action-buttons {
+     display: flex;
+     gap: 1rem;
+     justify-content: center;
+     flex-wrap: wrap;
+ }
+
+ .btn {
+     padding: 0.8rem 1.5rem;
+     border-radius: 8px;
+     font-size: 1rem;
+     font-weight: 600;
+     text-decoration: none;
+     transition: all 0.3s ease;
+     cursor: pointer;
+ }
+
+ .btn-primary {
+     background-color: var(--dark-surface);
+     color: var(--pure-white);
+     border: none;
+ }
+
+ .btn-primary:hover {
+     opacity: 0.9;
+     transform: translateY(-2px);
+ }
+
+ .btn-outline {
+     background-color: transparent;
+     color: var(--dark-surface);
+     border: 2px solid var(--dark-surface);
+ }
+
+ body.dark-mode .btn-primary {
+     background-color: var(--dark-accent);
+     color: var(--pure-white);
+ }
+
+ body.dark-mode .btn-primary:hover {
+     background-color: var(--dark-accent);
+     color: var(--pure-white);
+     opacity: 0.9;
+     transform: translateY(-2px);
+ }
+
+ body.dark-mode .btn-outline {
+     color: var(--dark-accent);
+     border-color: var(--dark-accent);
+ }
+
+ body.dark-mode .btn-outline:hover {
+     background-color: var(--dark-accent);
+     color: var(--dark-text-primary);
+ }
+
+ .payment-instruction {
+     margin-top: 2rem;
+     padding: 1.5rem;
+     background-color: rgba(40, 167, 69, 0.1);
+     border-radius: 8px;
+     border-left: 4px solid var(--success-color);
+ }
+
+ body.dark-mode .payment-instruction {
+     background-color: rgba(40, 167, 69, 0.2);
+ }
+
+ .payment-instruction h3 {
+     font-size: 1.1rem;
+     margin-bottom: 0.5rem;
+     color: var(--success-color);
+ }
+
+ .payment-instruction p {
+     color: var(--gray-800);
+     font-size: 0.95rem;
+ }
+
+ body.dark-mode .payment-instruction p {
+     color: var(--dark-text-primary);
+ }
+
+ @media (max-width: 576px) {
+     .success-container {
+         padding: 2rem 1.5rem;
+     }
+
+     .success-container h1 {
+         font-size: 2rem;
+     }
+
+     .action-buttons {
+         flex-direction: column;
+     }
+
+     .btn {
+         width: 100%;
+     }
+ }
+
+ .theme-toggle {
+     visibility: hidden;
+ }
