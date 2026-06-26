@@ -11,6 +11,7 @@ export default function ProjectDetails() {
   const [loading, setLoading] = useState(true)
   const [currentPath, setCurrentPath] = useState('')
   const { t } = useI18n()
+  const username = import.meta.env.VITE_GITHUB_USERNAME || 'CodeCraftersTeam01';
 
   useEffect(() => {
     // Reset state when repo changes
@@ -18,17 +19,39 @@ export default function ProjectDetails() {
     setCurrentPath('')
     
     // Fetch Repo Details
-    fetch(`https://api.github.com/repos/CodeCraftersTeam01/${repo}`)
+    fetch(`/api/github/repos/${username}/${repo}`)
       .then(res => res.json())
-      .then(data => setRepoData(data))
-      .catch(err => console.error(err))
+      .then(data => {
+        if (data.message) {
+          // Fallback if rate limited or not found
+          setRepoData({
+            name: repo.replace(/-/g, ' ').replace(/(^\w|\s\w)/g, m => m.toUpperCase()),
+            description: `A project by ${username}`,
+            language: 'Code',
+            html_url: `https://github.com/${username}/${repo}`,
+            homepage: '#'
+          })
+        } else {
+          setRepoData(data)
+        }
+      })
+      .catch(err => {
+        console.error(err)
+        setRepoData({
+            name: repo.replace(/-/g, ' ').replace(/(^\w|\s\w)/g, m => m.toUpperCase()),
+            description: `A project by ${username}`,
+            language: 'Code',
+            html_url: `https://github.com/${username}/${repo}`,
+            homepage: '#'
+        })
+      })
 
   }, [repo])
 
   useEffect(() => {
     setLoading(true)
     const pathQuery = currentPath ? `/${currentPath}` : ''
-    fetch(`https://api.github.com/repos/CodeCraftersTeam01/${repo}/contents${pathQuery}`)
+    fetch(`/api/github/repos/${username}/${repo}/contents${pathQuery}`)
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch')
         return res.json()
@@ -44,7 +67,17 @@ export default function ProjectDetails() {
       })
       .catch(err => {
         console.error(err)
-        setContents([])
+        // Fallback dummy files if rate limited or not found
+        if (!currentPath) {
+          setContents([
+            { name: 'src', type: 'dir', path: 'src', sha: '1' },
+            { name: 'public', type: 'dir', path: 'public', sha: '2' },
+            { name: 'README.md', type: 'file', size: 1024, sha: '3' },
+            { name: 'package.json', type: 'file', size: 512, sha: '4' }
+          ])
+        } else {
+          setContents([])
+        }
         setLoading(false)
       })
   }, [repo, currentPath])
@@ -111,7 +144,7 @@ export default function ProjectDetails() {
         <div className="file-explorer">
           <div className="file-explorer__header">
             <div className="file-explorer__path">
-              CodeCraftersTeam01 / {repo} {currentPath ? `/ ${currentPath}` : ''}
+              {username} / {repo} {currentPath ? `/ ${currentPath}` : ''}
             </div>
           </div>
           

@@ -7,6 +7,7 @@ import { AnimatePresence } from 'motion/react'
 
 import { ThemeProvider } from './context/ThemeContext'
 import { I18nProvider } from './context/I18nContext'
+import { PerformanceProvider, usePerformance } from './context/PerformanceContext'
 import Preloader from './components/Preloader'
 import LiquidCursor from './components/LiquidCursor'
 import Navbar from './components/Navbar'
@@ -33,8 +34,17 @@ function ScrollToTop() {
 function AppContent() {
   const [loaded, setLoaded] = useState(false)
   const location = useLocation()
+  const { isLowEnd } = usePerformance()
 
   useEffect(() => {
+    if (isLowEnd) {
+      gsap.ticker.fps(30) // Reduce GSAP framerate on potato PCs
+      return
+    }
+
+    // Reset fps to unthrottled for high-end PCs
+    gsap.ticker.fps(0) 
+
     const lenis = new Lenis({
       duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -55,11 +65,13 @@ function AppContent() {
     resizeObserver.observe(document.body)
 
     return () => {
-      lenis.destroy()
-      gsap.ticker.remove(tickerFn)
+      if (!isLowEnd) {
+        lenis.destroy()
+        gsap.ticker.remove(tickerFn)
+      }
       resizeObserver.disconnect()
     }
-  }, [])
+  }, [isLowEnd])
 
   // Refresh ScrollTrigger when route changes
   useEffect(() => {
@@ -71,10 +83,10 @@ function AppContent() {
   return (
     <>
       <ScrollToTop />
-      <div className="noise-overlay" aria-hidden="true" />
+      {!isLowEnd && <div className="noise-overlay" aria-hidden="true" />}
       <ThemeTransition />
       {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
-      <LiquidCursor />
+      {!isLowEnd && <LiquidCursor />}
       <Navbar />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
@@ -91,9 +103,11 @@ export default function App() {
   return (
     <ThemeProvider>
       <I18nProvider>
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
+        <PerformanceProvider>
+          <BrowserRouter>
+            <AppContent />
+          </BrowserRouter>
+        </PerformanceProvider>
       </I18nProvider>
     </ThemeProvider>
   )

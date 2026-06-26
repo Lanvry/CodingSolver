@@ -56,14 +56,14 @@ export default function Contact() {
             </p>
 
             <div className="contact__details">
-              <a href="mailto:hello@codingsolver.com" className="contact__detail">
+              <a href="mailto:codingsolver0@gmail.com" className="contact__detail">
                 <span className="contact__detail-icon">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                     <polyline points="22,6 12,13 2,6" />
                   </svg>
                 </span>
-                <span>hello@codingsolver.com</span>
+                <span>codingsolver0@gmail.com</span>
               </a>
 
               <div className="contact__detail">
@@ -89,53 +89,26 @@ export default function Contact() {
           </div>
 
           {/* Form side */}
-          <div ref={formRef} className="contact__form-wrap">
-            {sent ? (
-              <div className="contact__success">
-                <div className="contact__success-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                  </svg>
-                </div>
-                <h3>{t('contact.form.submit')} Success!</h3>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit}>
-                <div className="contact__row" style={{ marginBottom: 0 }}>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      placeholder={t('contact.form.name')}
-                      className="contact__input"
-                      required
-                    />
-                  </div>
-                  <div className="input-group">
-                    <input
-                      type="email"
-                      placeholder={t('contact.form.email')}
-                      className="contact__input"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="input-group">
-                  <textarea
-                    placeholder={t('contact.form.message')}
-                    className="contact__input contact__textarea"
-                    rows={5}
-                    required
-                  />
-                </div>
-                <button type="submit" className="btn btn--primary contact__submit">
-                  {t('contact.form.submit')}
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M2.5 7h9M8 3.5 11.5 7 8 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-              </form>
-            )}
+          <div ref={formRef} className="contact__form-wrap" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '20px', padding: '40px' }}>
+            <h3 style={{ fontSize: '1.5rem', marginBottom: '8px', color: 'var(--white)' }}>Let's work together</h3>
+            <p style={{ color: 'var(--white-70)', marginBottom: '16px', lineHeight: 1.6 }}>
+              Feel free to reach out directly via email or phone. We're always open to discussing new projects, creative ideas or opportunities to be part of your visions.
+            </p>
+            
+            <a href="mailto:codingsolver0@gmail.com" className="btn btn--primary" style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center', fontSize: '1.1rem', width: '100%' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              codingsolver0@gmail.com
+            </a>
+
+            <a href="https://wa.me/6285730426264" target="_blank" rel="noopener noreferrer" className="btn" style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center', fontSize: '1.1rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'var(--white)', width: '100%' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+              0857-3042-6264
+            </a>
           </div>
         </div>
       </div>

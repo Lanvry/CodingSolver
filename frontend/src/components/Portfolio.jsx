@@ -23,38 +23,55 @@ export default function Portfolio() {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
 
+  const username = import.meta.env.VITE_GITHUB_USERNAME || 'CodeCraftersTeam01';
+
   useEffect(() => {
-    fetch('https://api.github.com/users/CodeCraftersTeam01/repos?sort=updated&per_page=6')
+    const processData = (dataArray) => {
+      return dataArray.map((repo, i) => {
+        const date = repo.updated_at || repo.created_at ? new Date(repo.updated_at || repo.created_at) : new Date()
+        const year = date.getFullYear() || new Date().getFullYear()
+        const style = projectStyles[i % projectStyles.length]
+        const tags = repo.topics && repo.topics.length > 0 ? repo.topics.slice(0, 3) : []
+        if (tags.length === 0 && repo.language) tags.push(repo.language)
+        if (tags.length === 0) tags.push('Open Source')
+        
+        return {
+          repoName: repo.name,
+          title: repo.name.replace(/-/g, ' ').replace(/(^\w|\s\w)/g, m => m.toUpperCase()),
+          category: repo.language || 'Repository',
+          desc: repo.description || '',
+          year: year.toString(),
+          tags: tags,
+          bg: style.bg,
+          accentColor: style.accentColor,
+          url: repo.homepage || repo.html_url,
+          image: repo.html_url !== '#' ? `https://opengraph.githubassets.com/1/${username}/${repo.name}` : null
+        }
+      })
+    }
+
+    const fallbackData = [
+      { name: 'e-commerce-api', description: 'RESTful API for e-commerce platforms', language: 'PHP', topics: ['laravel', 'api'], html_url: '#' },
+      { name: 'react-dashboard', description: 'Admin dashboard template built with React', language: 'JavaScript', topics: ['react', 'dashboard'], html_url: '#' },
+      { name: 'mobile-app', description: 'Cross-platform mobile application', language: 'Dart', topics: ['flutter', 'mobile'], html_url: '#' },
+      { name: 'ai-assistant', description: 'AI powered chat assistant', language: 'Python', topics: ['ai', 'machine-learning'], html_url: '#' },
+      { name: 'portfolio-v1', description: 'Personal portfolio website', language: 'JavaScript', topics: ['react', 'css'], html_url: '#' },
+      { name: 'payment-gateway', description: 'Payment processing gateway integration', language: 'TypeScript', topics: ['stripe', 'payments'], html_url: '#' }
+    ]
+
+    fetch(`/api/github/users/${username}/repos`)
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data)) {
-          const mappedProjects = data.map((repo, i) => {
-            const date = new Date(repo.updated_at || repo.created_at)
-            const year = date.getFullYear() || new Date().getFullYear()
-            const style = projectStyles[i % projectStyles.length]
-            const tags = repo.topics && repo.topics.length > 0 ? repo.topics.slice(0, 3) : []
-            if (tags.length === 0 && repo.language) tags.push(repo.language)
-            if (tags.length === 0) tags.push('Open Source')
-            
-            return {
-              repoName: repo.name,
-              title: repo.name.replace(/-/g, ' ').replace(/(^\w|\s\w)/g, m => m.toUpperCase()),
-              category: repo.language || 'Repository',
-              desc: repo.description || '',
-              year: year.toString(),
-              tags: tags,
-              bg: style.bg,
-              accentColor: style.accentColor,
-              url: repo.homepage || repo.html_url,
-              image: `https://opengraph.githubassets.com/1/CodeCraftersTeam01/${repo.name}`
-            }
-          })
-          setProjects(mappedProjects)
+        if (Array.isArray(data) && data.length > 0) {
+          setProjects(processData(data))
+        } else {
+          setProjects(processData(fallbackData))
         }
         setLoading(false)
       })
       .catch(err => {
         console.error('Failed to fetch github repos', err)
+        setProjects(processData(fallbackData))
         setLoading(false)
       })
   }, [])

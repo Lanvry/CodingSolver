@@ -16,3 +16,9 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('/github/users/{username}/repos', 'GithubController@getRepos');
+    $router->get('/github/repos/{username}/{repo}', 'GithubController@getRepoDetails');
+    $router->get('/github/repos/{username}/{repo}/contents[/{path:.*}]', 'GithubController@getRepoContents');
+});
