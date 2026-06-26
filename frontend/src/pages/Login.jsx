@@ -24,43 +24,50 @@ export default function Login() {
   }
 
   return (
-    <div className="container" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div className="contact__form-wrap" style={{ width: '100%', maxWidth: '400px', padding: '40px' }}>
-        <h2 style={{ fontSize: '2rem', marginBottom: '8px', color: 'var(--white)' }}>Admin Login</h2>
-        <p style={{ color: 'var(--white-70)', marginBottom: '32px' }}>Sign in to access your tracking dashboard.</p>
-        
-        {error && (
-          <div style={{ background: 'rgba(255,50,50,0.1)', border: '1px solid rgba(255,50,50,0.3)', color: '#ff6b6b', padding: '12px 16px', borderRadius: '8px', marginBottom: '24px' }}>
-            {error}
-          </div>
-        )}
+    <>
+      {/* React 19 Document Metadata Hoisting */}
+      <title>{t('seo.login.title')}</title>
+      <meta name="description" content={t('seo.login.description')} />
+      <meta name="robots" content="noindex, nofollow" />
 
-        <form onSubmit={handleSubmit}>
-          <div className="input-group" style={{ marginBottom: '16px' }}>
-            <input
-              type="email"
-              placeholder="Email address"
-              className="contact__input"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="input-group" style={{ marginBottom: '24px' }}>
-            <input
-              type="password"
-              placeholder="Password"
-              className="contact__input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" className="btn btn--primary" style={{ width: '100%', justifyContent: 'center' }} disabled={isLoading}>
-            {isLoading ? 'Signing in...' : 'Sign In'}
-          </button>
-        </form>
+      <div className="container" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="contact__form-wrap" style={{ width: '100%', maxWidth: '400px', padding: '40px' }}>
+          <h2 style={{ fontSize: '2rem', marginBottom: '8px', color: 'var(--white)' }}>Admin Login</h2>
+          <p style={{ color: 'var(--white-70)', marginBottom: '32px' }}>Sign in to access your tracking dashboard.</p>
+          
+          {error && (
+            <div style={{ background: 'rgba(255,50,50,0.1)', border: '1px solid rgba(255,50,50,0.3)', color: '#ff6b6b', padding: '12px 16px', borderRadius: '8px', marginBottom: '24px' }}>
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div className="input-group" style={{ marginBottom: '16px' }}>
+              <input
+                type="email"
+                placeholder="Email address"
+                className="contact__input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="input-group" style={{ marginBottom: '24px' }}>
+              <input
+                type="password"
+                placeholder="Password"
+                className="contact__input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" className="btn btn--primary" style={{ width: '100%', justifyContent: 'center' }} disabled={isLoading}>
+              {isLoading ? 'Signing in...' : 'Sign In'}
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   )
 }

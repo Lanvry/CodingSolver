@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /project/
+Disallow: /login
+Disallow: /dashboard
+Disallow: /api/
+
+Sitemap: https://codingsolver.com/sitemap.xml

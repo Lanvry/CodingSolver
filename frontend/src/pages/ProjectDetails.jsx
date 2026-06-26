@@ -97,14 +97,37 @@ export default function ProjectDetails() {
     setCurrentPath(parts.join('/'))
   }
 
+  const dynamicTitle = repoData?.name 
+    ? t('seo.project.title').replace('{name}', repoData.name)
+    : 'Loading Project — Coding Solver'
+
+  const dynamicDesc = repoData?.description 
+    ? t('seo.project.description').replace('{name}', repoData.name) + ` — ${repoData.description}`
+    : 'Details of project developed by Coding Solver.'
+
   return (
-    <motion.div 
-      className="project-details"
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -15 }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <>
+      {/* React 19 Document Metadata Hoisting */}
+      <title>{dynamicTitle}</title>
+      <meta name="description" content={dynamicDesc} />
+
+      {/* Open Graph */}
+      <meta property="og:type" content="article" />
+      <meta property="og:title" content={dynamicTitle} />
+      <meta property="og:description" content={dynamicDesc} />
+
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content={dynamicTitle} />
+      <meta name="twitter:description" content={dynamicDesc} />
+
+      <motion.div 
+        className="project-details"
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -15 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      >
       <div className="container">
         
         {/* Header Section */}
@@ -195,5 +218,6 @@ export default function ProjectDetails() {
 
       </div>
     </motion.div>
+    </>
   )
 }

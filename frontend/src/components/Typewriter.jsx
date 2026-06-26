@@ -41,9 +41,9 @@ const Typewriter = ({ text, delay = 30, className = '' }) => {
   }, [inView, text, delay]);
 
   return (
-    <span ref={ref} className={className}>
+    <span ref={ref} className={className} aria-label={text}>
       {displayedText}
-      {!isComplete && <span className="typewriter-cursor">|</span>}
+      {!isComplete && <span className="typewriter-cursor" aria-hidden="true">|</span>}
     </span>
   );
 };

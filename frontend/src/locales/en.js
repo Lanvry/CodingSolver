@@ -92,5 +92,24 @@ export default {
   footer: {
     tagline: 'Crafting digital excellence, one line of code at a time.',
     copyright: '© 2026 CodingSolver. All rights reserved.'
+  },
+  seo: {
+    home: {
+      title: 'Coding Solver — Professional Web Design & Development Services',
+      description: 'Elevate your business with Coding Solver. We build premium, high-performance, and responsive custom websites, landing pages, and web applications tailored for your brand.',
+      keywords: 'web development, custom website, landing page, premium design, web designer, React developer, digital agency'
+    },
+    project: {
+      title: '{name} — Coding Solver Project Showcase',
+      description: 'Explore the details and structure of {name}, a custom web development project built by Coding Solver.',
+    },
+    login: {
+      title: 'Member Login — Coding Solver',
+      description: 'Login to access the Coding Solver project management and tracking dashboard.'
+    },
+    dashboard: {
+      title: 'Project Tracking Dashboard — Coding Solver',
+      description: 'Track the real-time progress, requirements, deadlines, and reports of your current web development projects.'
+    }
   }
 }

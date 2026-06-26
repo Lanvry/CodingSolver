@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { useI18n } from '../context/I18nContext'
 import { Plus, X, Briefcase, Calendar, CheckCircle2, Circle, User, DollarSign, FileText } from 'lucide-react'
 
 export default function Dashboard() {
   const { user, logout } = useAuth()
+  const { t } = useI18n()
   const [tasks, setTasks] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -79,7 +81,13 @@ export default function Dashboard() {
   const doneTasks = tasks.filter(t => t.status === 'done')
 
   return (
-    <div className="container" style={{ paddingTop: '120px', paddingBottom: '80px', minHeight: '100vh' }}>
+    <>
+      {/* React 19 Document Metadata Hoisting */}
+      <title>{t('seo.dashboard.title')}</title>
+      <meta name="description" content={t('seo.dashboard.description')} />
+      <meta name="robots" content="noindex, nofollow" />
+
+      <div className="container" style={{ paddingTop: '120px', paddingBottom: '80px', minHeight: '100vh' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
         <div>
           <h1 className="section-heading" style={{ fontSize: '2.5rem', marginBottom: '8px' }}>Project CRM</h1>
@@ -137,6 +145,7 @@ export default function Dashboard() {
         />
       )}
     </div>
+    </>
   )
 }
 

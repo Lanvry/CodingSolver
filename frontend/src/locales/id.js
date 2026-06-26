@@ -92,5 +92,24 @@ export default {
   footer: {
     tagline: 'Menciptakan keunggulan digital, baris demi baris kode.',
     copyright: '© 2026 CodingSolver. Hak cipta dilindungi undang-undang.'
+  },
+  seo: {
+    home: {
+      title: 'Coding Solver — Jasa Pembuatan Website & Desain Premium Profesional',
+      description: 'Tingkatkan bisnis Anda bersama Coding Solver. Kami menyediakan jasa pembuatan website kustom, landing page premium, dan aplikasi web berkinerja tinggi yang responsif.',
+      keywords: 'jasa pembuatan website, buat website kustom, landing page premium, desain web profesional, developer React, agensi digital, tracking proyek'
+    },
+    project: {
+      title: '{name} — Galeri Proyek Coding Solver',
+      description: 'Lihat detail dan struktur kode dari {name}, proyek pengembangan web kustom yang dibangun oleh Coding Solver.',
+    },
+    login: {
+      title: 'Login Anggota — Coding Solver',
+      description: 'Masuk untuk mengakses dashboard manajemen dan pelacakan proyek Coding Solver.'
+    },
+    dashboard: {
+      title: 'Dashboard Pelacakan Proyek — Coding Solver',
+      description: 'Pantau progres langsung, kebutuhan proyek, deadline, dan laporan proyek pengembangan website Anda.'
+    }
   }
 }
