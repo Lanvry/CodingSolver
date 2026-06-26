@@ -17,7 +17,7 @@ export default function Dashboard() {
 
   const fetchTasks = async () => {
     try {
-      const res = await fetch('/api/tasks', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/tasks`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
         }
@@ -47,7 +47,7 @@ export default function Dashboard() {
     const newStatus = currentStatus === 'pending' ? 'done' : 'pending'
     setTasks(tasks.map(t => t.id === id ? { ...t, status: newStatus } : t))
     try {
-      await fetch(`/api/tasks/${id}`, {
+      await fetch(`${import.meta.env.VITE_API_URL || ''}/api/tasks/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ export default function Dashboard() {
     if (!confirm('Are you sure you want to delete this project?')) return
     setTasks(tasks.filter(t => t.id !== id))
     try {
-      await fetch(`/api/tasks/${id}`, {
+      await fetch(`${import.meta.env.VITE_API_URL || ''}/api/tasks/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
@@ -222,7 +222,9 @@ function ProjectModal({ task, onClose, onSave }) {
     e.preventDefault()
     setLoading(true)
 
-    const url = task ? `/api/tasks/${task.id}` : '/api/tasks'
+    const url = task 
+      ? `${import.meta.env.VITE_API_URL || ''}/api/tasks/${task.id}` 
+      : `${import.meta.env.VITE_API_URL || ''}/api/tasks`
     const method = task ? 'PUT' : 'POST'
     
     // Clean up empty fields

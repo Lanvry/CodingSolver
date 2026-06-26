@@ -59,7 +59,7 @@ export default function Portfolio() {
       { name: 'payment-gateway', description: 'Payment processing gateway integration', language: 'TypeScript', topics: ['stripe', 'payments'], html_url: '#' }
     ]
 
-    fetch(`/api/github/users/${username}/repos`)
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/github/users/${username}/repos`)
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {

@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
     }
 
     try {
-      const res = await fetch('/api/user', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/user`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -40,7 +40,7 @@ export function AuthProvider({ children }) {
   }
 
   const login = async (email, password) => {
-    const res = await fetch('/api/login', {
+    const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
