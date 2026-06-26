@@ -8,6 +8,8 @@ import { AnimatePresence } from 'motion/react'
 import { ThemeProvider } from './context/ThemeContext'
 import { I18nProvider } from './context/I18nContext'
 import { PerformanceProvider, usePerformance } from './context/PerformanceContext'
+import { AuthProvider, useAuth } from './context/AuthContext'
+import { Navigate } from 'react-router-dom'
 import Preloader from './components/Preloader'
 import LiquidCursor from './components/LiquidCursor'
 import Navbar from './components/Navbar'
@@ -15,6 +17,8 @@ import Footer from './components/Footer'
 import ThemeTransition from './components/ThemeTransition'
 import Landing from './pages/Landing'
 import ProjectDetails from './pages/ProjectDetails'
+import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
 
 import './index.css'
 import './App.css'
@@ -31,10 +35,19 @@ function ScrollToTop() {
   return null;
 }
 
+function ProtectedRoute({ children }) {
+  const { user, loading } = useAuth()
+  if (loading) return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>
+  if (!user) return <Navigate to="/login" replace />
+  return children
+}
+
 function AppContent() {
   const [loaded, setLoaded] = useState(false)
   const location = useLocation()
   const { isLowEnd } = usePerformance()
+  
+  const showLandingLayout = location.pathname === '/' || location.pathname.startsWith('/project')
 
   useEffect(() => {
     if (isLowEnd) {
@@ -87,14 +100,20 @@ function AppContent() {
       <ThemeTransition />
       {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
       {!isLowEnd && <LiquidCursor />}
-      <Navbar />
+      {showLandingLayout && <Navbar />}
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Landing />} />
           <Route path="/project/:repo" element={<ProjectDetails />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
         </Routes>
       </AnimatePresence>
-      <Footer />
+      {showLandingLayout && <Footer />}
     </>
   )
 }
@@ -105,7 +124,9 @@ export default function App() {
       <I18nProvider>
         <PerformanceProvider>
           <BrowserRouter>
-            <AppContent />
+            <AuthProvider>
+              <AppContent />
+            </AuthProvider>
           </BrowserRouter>
         </PerformanceProvider>
       </I18nProvider>
