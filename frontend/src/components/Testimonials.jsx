@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useI18n } from '../context/I18nContext'
@@ -18,16 +19,40 @@ export default function Testimonials() {
   const sectionRef = useRef(null)
   const headerRef = useRef(null)
   const { t, tArray } = useI18n()
+  const [apiReviews, setApiReviews] = useState([])
+
+  useEffect(() => {
+    fetch(`/api/testimonials`)
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setApiReviews(data)
+        }
+      })
+      .catch(err => console.error('Failed to fetch testimonials', err))
+  }, [])
 
   const reviews = tArray('testimonials.reviews')
   
   // Merge reviews with author data (fallback if lengths don't match)
-  const testimonials = reviews.map((r, i) => ({
+  const localeTestimonials = reviews.map((r, i) => ({
     quote: r.text || r.quote || r,
     author: r.author || authors[i]?.author || 'Client',
     role: r.role || authors[i]?.role || 'Partner',
     initial: authors[i]?.initial || 'C'
   }))
+
+  const dynamicTestimonials = apiReviews.map(r => {
+    const initials = r.name ? r.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'C';
+    return {
+      quote: r.comment,
+      author: r.name,
+      role: r.role || 'Client',
+      initial: initials
+    }
+  })
+
+  const testimonials = [...dynamicTestimonials, ...localeTestimonials]
 
   // Duplicate for seamless loop
   const allTestimonials = [...testimonials, ...testimonials]
@@ -53,9 +78,14 @@ export default function Testimonials() {
   return (
     <section ref={sectionRef} className="testimonials">
       <div className="container">
-        <div ref={headerRef} className="testimonials__header">
-          <span className="section-eyebrow">{t('testimonials.badge')}</span>
-          <h2 className="section-heading">{t('testimonials.title')}</h2>
+        <div ref={headerRef} className="testimonials__header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '20px' }}>
+          <div>
+            <span className="section-eyebrow">{t('testimonials.badge')}</span>
+            <h2 className="section-heading" style={{ marginBottom: 0 }}>{t('testimonials.title')}</h2>
+          </div>
+          <Link to="/testimonial/new" className="btn btn--ghost" style={{ textDecoration: 'none' }}>
+            {t('testimonials.submitBtn')}
+          </Link>
         </div>
       </div>
 

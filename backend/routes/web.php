@@ -26,6 +26,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     // Auth
     $router->post('/login', 'AuthController@login');
 
+    // Testimonials & Stats
+    $router->get('/testimonials', 'TestimonialController@index');
+    $router->post('/testimonials', 'TestimonialController@store');
+    $router->get('/public/stats', 'TestimonialController@getStats');
+
     // Protected Routes
     $router->group(['middleware' => 'token'], function () use ($router) {
         $router->get('/user', 'AuthController@me');

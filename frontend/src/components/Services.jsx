@@ -73,7 +73,7 @@ export default function Services() {
       // Cards stacking animation
       const cards = gsap.utils.toArray('.service-card')
       
-      cards.forEach((card, index) => {
+      cards.forEach((card) => {
         // 1. Animate card contents appearing when the card scrolls into view
         const contentElements = card.querySelectorAll('.service-card__icon-wrap, .service-card__arrow')
         
@@ -93,26 +93,31 @@ export default function Services() {
             }
           }
         )
+      })
 
-        // 2. If it's not the last card, animate its scale and opacity as the next card approaches
-        if (index < cards.length - 1) {
-          const nextCard = cards[index + 1]
-          
-          gsap.fromTo(card,
-            { scale: 1, opacity: 1 },
-            {
-              scale: 0.9 + (index * 0.02), // Slightly different scale for depth
-              opacity: 0.4,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: nextCard,
-                start: 'top 80%', // When next card is coming up
-                end: 'top 140px', // When next card hits its sticky position
-                scrub: true,
+      // Stacking effect only on desktop
+      const mm = gsap.matchMedia()
+      mm.add("(min-width: 769px)", () => {
+        cards.forEach((card, index) => {
+          if (index < cards.length - 1) {
+            const nextCard = cards[index + 1]
+            
+            gsap.fromTo(card,
+              { scale: 1, opacity: 1 },
+              {
+                scale: 0.9 + (index * 0.02), // Slightly different scale for depth
+                opacity: 0.4,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: nextCard,
+                  start: 'top 80%', // When next card is coming up
+                  end: 'top 140px', // When next card hits its sticky position
+                  scrub: true,
+                }
               }
-            }
-          )
-        }
+            )
+          }
+        })
       })
     }, sectionRef)
 

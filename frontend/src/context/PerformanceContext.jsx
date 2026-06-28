@@ -14,12 +14,12 @@ export function PerformanceProvider({ children }) {
     }
 
     // Check hardware concurrency (number of logical processors)
-    if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) {
+    if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) {
       lowEnd = true
     }
 
     // Check device memory in GB (only available in chromium-based browsers)
-    if (navigator.deviceMemory && navigator.deviceMemory < 4) {
+    if (navigator.deviceMemory && navigator.deviceMemory <= 8) {
       lowEnd = true
     }
 

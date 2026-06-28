@@ -19,6 +19,7 @@ import Landing from './pages/Landing'
 import ProjectDetails from './pages/ProjectDetails'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
+import SubmitTestimonial from './pages/SubmitTestimonial'
 
 import './index.css'
 import './App.css'
@@ -106,6 +107,7 @@ function AppContent() {
           <Route path="/" element={<Landing />} />
           <Route path="/project/:repo" element={<ProjectDetails />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/testimonial/new" element={<SubmitTestimonial />} />
           <Route path="/dashboard" element={
             <ProtectedRoute>
               <Dashboard />

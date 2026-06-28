@@ -19,7 +19,7 @@ export default function ProjectDetails() {
     setCurrentPath('')
     
     // Fetch Repo Details
-    fetch(`${import.meta.env.VITE_API_URL || ''}/api/github/repos/${username}/${repo}`)
+    fetch(`/api/github/repos/${username}/${repo}`)
       .then(res => res.json())
       .then(data => {
         if (data.message) {
@@ -51,7 +51,7 @@ export default function ProjectDetails() {
   useEffect(() => {
     setLoading(true)
     const pathQuery = currentPath ? `/${currentPath}` : ''
-    fetch(`${import.meta.env.VITE_API_URL || ''}/api/github/repos/${username}/${repo}/contents${pathQuery}`)
+    fetch(`/api/github/repos/${username}/${repo}/contents${pathQuery}`)
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch')
         return res.json()

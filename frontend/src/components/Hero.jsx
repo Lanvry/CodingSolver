@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { SplitText } from 'gsap/SplitText'
 import { useI18n } from '../context/I18nContext'
@@ -20,10 +20,27 @@ export default function Hero() {
   const scrollRef = useRef(null)
   const { t } = useI18n()
 
+  const [statsData, setStatsData] = useState({
+    projects_delivered: '50+',
+    client_satisfaction: '98%',
+    years_experience: '3+'
+  })
+
+  useEffect(() => {
+    fetch(`/api/public/stats`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.projects_delivered) {
+          setStatsData(data)
+        }
+      })
+      .catch(err => console.error('Failed to fetch public stats', err))
+  }, [])
+
   const stats = [
-    { value: '50+', label: t('hero.stat1') },
-    { value: '98%', label: t('hero.stat2') },
-    { value: '3+', label: t('hero.stat3') },
+    { value: statsData.projects_delivered, label: t('hero.stat1') },
+    { value: statsData.client_satisfaction, label: t('hero.stat2') },
+    { value: statsData.years_experience, label: t('hero.stat3') },
   ]
 
   useEffect(() => {
@@ -107,7 +124,7 @@ export default function Hero() {
         {/* Badge */}
         <div ref={badgeRef} className="hero__badge">
           <span className="hero__badge-pulse" />
-          {t('hero.badge')}
+          {t('hero.badge').replace('50+', statsData.projects_delivered)}
         </div>
 
         {/* Title */}
